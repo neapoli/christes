@@ -1,0 +1,20 @@
+langcode: it
+status: true
+dependencies:
+  config:
+    - field.storage.user.field_data_di_nascita
+  module:
+    - datetime
+    - user
+id: user.user.field_data_di_nascita
+field_name: field_data_di_nascita
+entity_type: user
+bundle: user
+label: 'Data Di Nascita'
+description: "<strong>FACOLTATIVA - Inserire la data di Nascita dell'Utente</strong>"
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

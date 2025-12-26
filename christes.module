@@ -1,0 +1,38 @@
+<?php
+
+use Drupal\Core\Datetime\DrupalDateTime;
+use Drupal\user\Entity\User;
+
+/**
+ * Implements hook_cron().
+ *
+ * @throws \Drupal\Core\Entity\EntityStorageException
+ */
+function christes_cron() {
+  // Build Drupal DateTime & set correct format for your query
+  $current_time = new DrupalDateTime('now');
+  $current_time = $current_time->format('Y-m-d');
+
+  $storage = \Drupal::entityTypeManager()->getStorage('user');
+
+  // Get all Nodes satisfying your conditions
+  $allUsers = $storage->getQuery()
+    ->accessCheck(FALSE)
+    ->condition('field_tipologia_incarico','160')
+    ->condition('status', 1)
+    ->condition('field_data_scadenza_incarico', $current_time, '<=')
+    ->execute();
+
+  // Load all Node entities according to their IDs
+  $uids = User::loadMultiple($allUsers);
+  foreach ($uids as $user) {
+    foreach ($user->getRoles() as $role) {
+      $user->removeRole($role);
+    }
+    // Update User
+    $user->block();
+    // $user->set('status', 0); anche questa istruzione imposto lo stato a BLOCCATO di un UTENTE
+    $user->save();
+  }
+}
+

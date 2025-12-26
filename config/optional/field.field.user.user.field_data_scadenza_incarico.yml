@@ -1,0 +1,20 @@
+langcode: it
+status: true
+dependencies:
+  config:
+    - field.storage.user.field_data_scadenza_incarico
+  module:
+    - datetime
+    - user
+id: user.user.field_data_scadenza_incarico
+field_name: field_data_scadenza_incarico
+entity_type: user
+bundle: user
+label: 'Data Scadenza Incarico'
+description: 'Con incarico a Tempo DETERMINATO bisogna indicare la data di scadenza'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

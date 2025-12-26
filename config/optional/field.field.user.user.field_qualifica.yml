@@ -1,0 +1,20 @@
+langcode: it
+status: true
+dependencies:
+  config:
+    - field.storage.user.field_qualifica
+  module:
+    - options
+    - user
+id: user.user.field_qualifica
+field_name: field_qualifica
+entity_type: user
+bundle: user
+label: Qualifica
+description: 'Selezionare la QUALIFICA(Docente, Dirigente, ecc...)'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

@@ -1,0 +1,41 @@
+langcode: it
+status: true
+dependencies:
+  module:
+    - options
+    - user
+id: user.field_qualifica
+field_name: field_qualifica
+entity_type: user
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: Docente
+      label: Docente
+    -
+      value: Dirigente
+      label: Dirigente
+    -
+      value: 'Direttore SGA'
+      label: 'Direttore SGA'
+    -
+      value: 'Assistente Amministrativo'
+      label: 'Assistente Amministrativo'
+    -
+      value: 'Assistente Tecnico'
+      label: 'Assistente Tecnico'
+    -
+      value: 'Collaboratore Scolastico'
+      label: 'Collaboratore Scolastico'
+    -
+      value: Amministratore
+      label: Amministratore
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

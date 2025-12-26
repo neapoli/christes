@@ -1,0 +1,20 @@
+langcode: it
+status: true
+dependencies:
+  config:
+    - field.storage.user.field_sede_di_servizio
+  module:
+    - options
+    - user
+id: user.user.field_sede_di_servizio
+field_name: field_sede_di_servizio
+entity_type: user
+bundle: user
+label: 'Sede/i Di Servizio'
+description: 'Selezionare la/e SEDE/I di SERVIZIO'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

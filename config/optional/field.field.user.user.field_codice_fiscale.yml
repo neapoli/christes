@@ -1,0 +1,21 @@
+langcode: it
+status: true
+dependencies:
+  config:
+    - field.storage.user.field_codice_fiscale
+  module:
+    - user
+id: user.user.field_codice_fiscale
+field_name: field_codice_fiscale
+entity_type: user
+bundle: user
+label: 'Codice Fiscale'
+description: "Inserire <strong>TINIT-</strong>+codice fiscale in maiuscolo<br />\r\nES. TINIT-AAABBB11H22X333X"
+required: true
+translatable: false
+default_value:
+  -
+    value: TINIT-
+default_value_callback: ''
+settings: {  }
+field_type: string
