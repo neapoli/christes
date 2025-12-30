@@ -1,16 +1,16 @@
+uuid: d41faf79-f226-45f1-81dd-93b323f3c0ee
 langcode: it
 status: true
 dependencies:
   module:
+    - taxonomy
     - user
-id: user.field_luogo_di_nascita
-field_name: field_luogo_di_nascita
+id: user.field_tipologia_incarico
+field_name: field_tipologia_incarico
 entity_type: user
-type: string
+type: entity_reference
 settings:
-  max_length: 255
-  case_sensitive: false
-  is_ascii: false
+  target_type: taxonomy_term
 module: core
 locked: false
 cardinality: 1

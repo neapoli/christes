@@ -1,0 +1,171 @@
+langcode: it
+status: true
+dependencies:
+  config:
+    - field.field.user.user.field_codice_fiscale
+    - field.field.user.user.field_cognome
+    - field.field.user.user.field_data_scadenza_incarico
+    - field.field.user.user.field_nome
+    - field.field.user.user.field_qualifica
+    - field.field.user.user.field_sede_di_servizio
+    - field.field.user.user.field_tipologia_incarico
+  module:
+    - conditional_fields
+    - datetime
+    - field_group
+    - user
+third_party_settings:
+  field_group:
+    group_dati_accesso_al_sito:
+      children:
+        - account
+      label: 'DATI ACCESSO AL SITO'
+      region: content
+      parent_name: ''
+      weight: 2
+      format_type: details
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        label_as_html: false
+        open: true
+        description: ''
+        required_fields: true
+    group_dati_anagrafici:
+      children:
+        - field_cognome
+        - field_nome
+        - field_codice_fiscale
+      label: 'DATI ANAGRAFICI'
+      region: content
+      parent_name: ''
+      weight: 0
+      format_type: details
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        label_as_html: false
+        open: true
+        description: ''
+        required_fields: true
+    group_dati_contrattuali:
+      children:
+        - field_qualifica
+        - field_sede_di_servizio
+        - field_tipologia_incarico
+        - field_data_scadenza_incarico
+      label: 'DATI CONTRATTUALI'
+      region: content
+      parent_name: ''
+      weight: 1
+      format_type: details
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        label_as_html: false
+        open: true
+        description: ''
+        required_fields: true
+id: user.user.default
+targetEntityType: user
+bundle: user
+mode: default
+content:
+  account:
+    weight: 1
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_codice_fiscale:
+    type: string_textfield
+    weight: 5
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_cognome:
+    type: string_textfield
+    weight: 2
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_data_scadenza_incarico:
+    type: datetime_default
+    weight: 8
+    region: content
+    settings: {  }
+    third_party_settings:
+      conditional_fields:
+        bc352cb1-cc13-40bd-9cfb-9ae28acc96bf:
+          entity_type: user
+          bundle: user
+          dependee: field_tipologia_incarico
+          settings:
+            state: visible
+            reset: true
+            condition: value
+            grouping: AND
+            values_set: 1
+            value: ''
+            values: {  }
+            value_form:
+              -
+                target_id: '751'
+            effect: show
+            effect_options: {  }
+            selector: ''
+        9ab041f9-a37f-4f8b-88c0-1bb3f711bc5c:
+          entity_type: user
+          bundle: user
+          dependee: field_tipologia_incarico
+          settings:
+            state: required
+            reset: true
+            condition: value
+            grouping: AND
+            values_set: 1
+            value: ''
+            values: {  }
+            value_form:
+              -
+                target_id: '751'
+            effect: show
+            effect_options: {  }
+            selector: ''
+  field_nome:
+    type: string_textfield
+    weight: 3
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_qualifica:
+    type: options_buttons
+    weight: 5
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_sede_di_servizio:
+    type: options_buttons
+    weight: 6
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_tipologia_incarico:
+    type: options_select
+    weight: 7
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  langcode: true
+  language: true
+  path: true
+  timezone: true

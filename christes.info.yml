@@ -5,6 +5,8 @@ package: "Neapoli"
 type: module
 core_version_requirement: ^10 || ^11
 dependencies:
-  - drupal:pathauto
-  - drupal:ultimate_cron
   - drupal:user
+  - conditional_fields:conditional_fields
+  - pathauto:pathauto
+  - ultimate_cron:ultimate_cron
+

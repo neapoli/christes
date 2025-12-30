@@ -13,17 +13,38 @@ function christes_cron() {
   $current_time = new DrupalDateTime('now');
   $current_time = $current_time->format('Y-m-d');
 
+  // Trova il TID del termine cercando per nome
+  $term_name = 'Tempo determinato'; // Sostituisci con il nome effettivo
+  $vocabulary_id = 'tipologia_incarichi'; // ID del vocabolario
+
+  $term_storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+  $terms = $term_storage->loadByProperties([
+    'name' => $term_name,
+    'vid' => $vocabulary_id,
+  ]);
+
+  // Se non trovi il termine, esci
+  if (empty($terms)) {
+    \Drupal::logger('christes')
+      ->warning('Termine tassonomico "@name" non trovato.', ['@name' => $term_name]);
+    return;
+  }
+
+  // Prendi il primo termine trovato
+  $term = reset($terms);
+  $tid = $term->id();
+
   $storage = \Drupal::entityTypeManager()->getStorage('user');
 
-  // Get all Nodes satisfying your conditions
+  // Get all Users satisfying your conditions
   $allUsers = $storage->getQuery()
     ->accessCheck(FALSE)
-    ->condition('field_tipologia_incarico','160')
+    ->condition('field_tipologia_incarico', $tid) // Usa il TID trovato
     ->condition('status', 1)
     ->condition('field_data_scadenza_incarico', $current_time, '<=')
     ->execute();
 
-  // Load all Node entities according to their IDs
+  // Load all User entities according to their IDs
   $uids = User::loadMultiple($allUsers);
   foreach ($uids as $user) {
     foreach ($user->getRoles() as $role) {
@@ -35,4 +56,3 @@ function christes_cron() {
     $user->save();
   }
 }
-
