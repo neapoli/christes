@@ -12,7 +12,7 @@ entity_type: user
 bundle: user
 label: 'Incarico a Tempo'
 description: 'Selezionare se personale a tempo determinato/indeterminato'
-required: false
+required: true
 translatable: false
 default_value: {  }
 default_value_callback: ''

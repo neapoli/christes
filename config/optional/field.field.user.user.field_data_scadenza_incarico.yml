@@ -11,7 +11,7 @@ field_name: field_data_scadenza_incarico
 entity_type: user
 bundle: user
 label: 'Data Scadenza Incarico'
-description: 'Con incarico a Tempo DETERMINATO bisogna indicare la data di scadenza'
+description: '<strong>Con incarico a Tempo DETERMINATO bisogna indicare la data di scadenza</strong>'
 required: false
 translatable: false
 default_value: {  }
