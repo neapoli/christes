@@ -1,6 +1,7 @@
 name: "Chrístes"
 description: 'Chrístes, dal greco utenti, è un modulo Drupal per la gestione degli utenti della scuola'
 package: "Neapoli"
+version: 1.0.0
 
 type: module
 core_version_requirement: ^10 || ^11
