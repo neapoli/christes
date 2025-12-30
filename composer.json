@@ -1,0 +1,25 @@
+{
+    "name": "neapoli/christes",
+    "type": "drupal-module",
+    "description": "Chrístes, dal greco utenti, è un modulo Drupal per la gestione degli utenti della scuola",
+    "keywords": ["Drupal", "module", "Chrístes"],
+    "homepage": "https://github.com/neapoli/christes",
+    "license": "AGPL-3.0-only",
+    "authors": [
+        {
+            "name": "Crescenzo Velleca",
+            "email": "info@softwebadvice.com",
+            "role": "Maintainer"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/neapoli/christes/issues",
+        "source": "https://github.com/neapoli/christes"
+    },
+    "require": {
+        "drupal/core": "^10",
+        "ouitoulia/skenografia": "*"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
