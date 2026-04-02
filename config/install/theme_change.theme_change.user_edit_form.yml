@@ -1,0 +1,9 @@
+langcode: it
+status: true
+dependencies: {  }
+id: user_edit_form
+label: 'User Edit Form'
+type: path
+path: '/user/*/edit'
+route: ''
+theme: claro

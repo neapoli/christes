@@ -1,0 +1,3 @@
+langcode: it
+username_display_override_mode: custom
+username_display_custom: '[user:field_nome] [user:field_cognome]'

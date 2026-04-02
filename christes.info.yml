@@ -8,6 +8,10 @@ core_version_requirement: ^10 || ^11
 dependencies:
   - drupal:user
   - conditional_fields:conditional_fields
+  - email_registration:email_registration
+  - mailsystem:mailsystem
   - pathauto:pathauto
+  - phpmailer_smtp:phpmailer_smtp
+  - theme_change:theme_change
   - ultimate_cron:ultimate_cron
 
