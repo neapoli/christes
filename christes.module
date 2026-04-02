@@ -66,4 +66,72 @@ function christes_form_user_register_form_alter(&$form, FormStateInterface $form
     // Notify user by default on account creation.
     $form['account']['notify']['#default_value'] = TRUE;
   }
+
+  // Callback di validazione per impostare il nome utente automatico.
+  $form['#validate'][] = 'christes_user_register_form_set_username';
+}
+
+/**
+ * Callback di validazione: imposta il nome utente da field_nome + field_cognome.
+ *
+ * Genera un nome utente nel formato "nome.cognome" (minuscolo, senza spazi).
+ * Se il nome utente esiste già, aggiunge un suffisso numerico progressivo.
+ */
+function christes_user_register_form_set_username(&$form, FormStateInterface $form_state) {
+  $nome    = trim($form_state->getValue(['field_nome', 0, 'value']) ?? '');
+  $cognome = trim($form_state->getValue(['field_cognome', 0, 'value']) ?? '');
+
+  if (empty($nome) || empty($cognome)) {
+    // Se i campi non sono ancora compilati, non fare nulla.
+    return;
+  }
+
+  // Normalizza: minuscolo, rimuovi spazi interni, sostituisci caratteri accentati.
+  $nome    = _christes_normalize_username_part($nome);
+  $cognome = _christes_normalize_username_part($cognome);
+
+  $base_username = $nome . '.' . $cognome;
+
+  // Trova un nome utente univoco aggiungendo suffisso numerico se necessario.
+  $username = $base_username;
+  $counter  = 2;
+  while (_christes_username_exists($username)) {
+    $username = $base_username . $counter;
+    $counter++;
+  }
+
+  $form_state->setValue(['account', 'name'], $username);
+}
+
+/**
+ * Normalizza una parte del nome utente: minuscolo, no spazi, traslittera accenti.
+ */
+function _christes_normalize_username_part(string $value): string {
+  // Traslitterazione caratteri accentati italiani più comuni.
+  $map = [
+    'à' => 'a', 'á' => 'a', 'â' => 'a', 'ã' => 'a', 'ä' => 'a',
+    'è' => 'e', 'é' => 'e', 'ê' => 'e', 'ë' => 'e',
+    'ì' => 'i', 'í' => 'i', 'î' => 'i', 'ï' => 'i',
+    'ò' => 'o', 'ó' => 'o', 'ô' => 'o', 'õ' => 'o', 'ö' => 'o',
+    'ù' => 'u', 'ú' => 'u', 'û' => 'u', 'ü' => 'u',
+    'ý' => 'y', 'ÿ' => 'y',
+    'ñ' => 'n', 'ç' => 'c',
+  ];
+  $value = strtr(mb_strtolower($value), $map);
+
+  // Rimuovi qualsiasi carattere non alfanumerico (spazi, apostrofi, trattini...).
+  $value = preg_replace('/[^a-z0-9]/', '', $value);
+
+  return $value;
+}
+
+/**
+ * Verifica se un nome utente è già in uso.
+ */
+function _christes_username_exists(string $username): bool {
+  return (bool) \Drupal::entityQuery('user')
+    ->accessCheck(FALSE)
+    ->condition('name', $username)
+    ->range(0, 1)
+    ->execute();
 }
