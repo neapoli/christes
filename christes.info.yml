@@ -9,6 +9,7 @@ dependencies:
   - drupal:user
   - conditional_fields:conditional_fields
   - email_registration:email_registration
+  - email_registration:email_registration_username
   - mailsystem:mailsystem
   - pathauto:pathauto
   - phpmailer_smtp:phpmailer_smtp
