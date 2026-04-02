@@ -6,9 +6,9 @@
  */
 
 /**
- * Implements hook_install().
+ * Importa/sovrascrive tutti i file yml presenti in config/override/.
  */
-function christes_install() {
+function _christes_import_override_configs() {
   $override_path = \Drupal::service('extension.list.module')
     ->getPath('christes') . '/config/override/';
 
@@ -24,4 +24,18 @@ function christes_install() {
       ->setData($data)
       ->save(TRUE);
   }
+}
+
+/**
+ * Implements hook_install().
+ */
+function christes_install() {
+  _christes_import_override_configs();
+}
+
+/**
+ * Aggiorna le configurazioni in config/override/.
+ */
+function christes_update_10001() {
+  _christes_import_override_configs();
 }
