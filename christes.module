@@ -56,3 +56,13 @@ function christes_cron() {
     $user->save();
   }
 }
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function christes_form_user_register_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  if (isset($form['account']['notify'])) {
+    // Notify user by default on account creation.
+    $form['account']['notify']['#default_value'] = TRUE;
+  }
+}
