@@ -4,3 +4,24 @@
  * @file
  * The Bootstrap Italia news install file.
  */
+
+/**
+ * Implements hook_install().
+ */
+function christes_install() {
+  $override_path = \Drupal::service('extension.list.module')
+    ->getPath('christes') . '/config/override/';
+
+  if (!is_dir($override_path)) {
+    return;
+  }
+
+  foreach (glob($override_path . '*.yml') as $file_path) {
+    $config_name = basename($file_path, '.yml');
+    $data = \Symfony\Component\Yaml\Yaml::parse(file_get_contents($file_path));
+    \Drupal::configFactory()
+      ->getEditable($config_name)
+      ->setData($data)
+      ->save(TRUE);
+  }
+}
