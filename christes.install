@@ -2,15 +2,15 @@
 
 /**
  * @file
- * The Bootstrap Italia news install file.
+ * Install file for Chrístes module.
  */
 
 /**
- * Importa/sovrascrive tutti i file yml presenti in config/override/.
+ * Importa/sovrascrive configurazioni da config/install/override/.
  */
 function _christes_import_override_configs() {
   $override_path = \Drupal::service('extension.list.module')
-    ->getPath('christes') . '/config/override/';
+      ->getPath('christes') . '/config/install/override/';
 
   if (!is_dir($override_path)) {
     return;
@@ -19,6 +19,30 @@ function _christes_import_override_configs() {
   foreach (glob($override_path . '*.yml') as $file_path) {
     $config_name = basename($file_path, '.yml');
     $data = \Symfony\Component\Yaml\Yaml::parse(file_get_contents($file_path));
+
+    \Drupal::configFactory()
+      ->getEditable($config_name)
+      ->setData($data)
+      ->save(TRUE);
+  }
+}
+
+/**
+ * Importa/sovrascrive configurazioni da config/optional/.
+ */
+function _christes_import_optional_configs() {
+  $optional_path = \Drupal::service('extension.list.module')
+      ->getPath('christes') . '/config/optional/';
+
+  if (!is_dir($optional_path)) {
+    return;
+  }
+
+  foreach (glob($optional_path . '*.yml') as $file_path) {
+    $config_name = basename($file_path, '.yml');
+    $data = \Symfony\Component\Yaml\Yaml::parse(file_get_contents($file_path));
+
+    // FORZA la sovrascrittura anche se la config esiste già
     \Drupal::configFactory()
       ->getEditable($config_name)
       ->setData($data)
@@ -30,12 +54,16 @@ function _christes_import_override_configs() {
  * Implements hook_install().
  */
 function christes_install() {
-  _christes_import_override_configs();
-}
+  // 1. Importa e sovrascrive tutto da config/optional/
+  _christes_import_optional_configs();
 
-/**
- * Aggiorna le configurazioni in config/override/.
- */
-function christes_update_10001() {
+  // 2. Importa e sovrascrive tutto da config/install/override/
   _christes_import_override_configs();
+
+  // 3. Pulisci cache
+  drupal_flush_all_caches();
+
+  \Drupal::messenger()->addStatus(
+    t('Modulo Chrístes installato. Tutte le configurazioni sono state applicate.')
+  );
 }

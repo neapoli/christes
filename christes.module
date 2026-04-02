@@ -43,6 +43,7 @@ function christes_cron() {
     ->condition('field_tipologia_incarico', $tid) // Usa il TID trovato
     ->condition('status', 1)
     ->condition('field_data_scadenza_incarico', $current_time, '<=')
+    ->exists('field_data_scadenza_incarico')
     ->execute();
 
   // Load all User entities according to their IDs
@@ -55,6 +56,12 @@ function christes_cron() {
     $user->block();
     // $user->set('status', 0); anche questa istruzione imposto lo stato a BLOCCATO di un UTENTE
     $user->save();
+
+    // Aggiungi logging
+    \Drupal::logger('christes')->notice(
+      'Utente @username (UID: @uid) bloccato per scadenza incarico.',
+      ['@username' => $username, '@uid' => $user->id()]
+    );
   }
 }
 
