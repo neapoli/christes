@@ -73,8 +73,6 @@ function christes_form_user_register_form_alter(&$form, FormStateInterface $form
     // Notify user by default on account creation.
     $form['account']['notify']['#default_value'] = TRUE;
   }
-  // Il nome utente viene generato automaticamente dal modulo email_registration: nasconde il campo.
-  $form['account']['name']['#access'] = FALSE;
 }
 
 /**

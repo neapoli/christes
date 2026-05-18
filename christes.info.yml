@@ -1,15 +1,15 @@
 name: "Chrístes"
 description: 'Chrístes, dal greco utenti, è un modulo Drupal per la gestione degli utenti della scuola'
 package: "Neapoli"
-version: 1.0.0
+version: 1.0.2
 
 type: module
-core_version_requirement: ^10 || ^11
+core_version_requirement: ^10.3 || ^11
 dependencies:
   - drupal:user
+  - auto_username:auto_username
   - conditional_fields:conditional_fields
-  - email_registration:email_registration
-  - email_registration:email_registration_username
+  - login_emailusername:login_emailusername
   - mailsystem:mailsystem
   - pathauto:pathauto
   - phpmailer_smtp:phpmailer_smtp
