@@ -78,10 +78,53 @@ function christes_form_user_register_form_alter(&$form, FormStateInterface $form
 /**
  * Implements hook_form_FORM_ID_alter().
  *
- * Nasconde il campo Nome Utente nel form di MODIFICA profilo.
+ * Nasconde il campo Nome Utente nel form di MODIFICA profilo, se
+ * l'impostazione "hide_username_field" è attiva
+ * (vedi /admin/config/people/accounts).
  */
 function christes_form_user_form_alter(&$form, FormStateInterface $form_state, $form_id) {
-  $form['account']['name']['#access'] = FALSE;
+  // Default a TRUE per preservare il comportamento storico (campo nascosto).
+  $hide = \Drupal::config('christes.settings')->get('hide_username_field') ?? TRUE;
+  if ($hide) {
+    $form['account']['name']['#access'] = FALSE;
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Aggiunge in /admin/config/people/accounts un flag per mostrare o
+ * nascondere il campo "Nome utente" nel form di modifica profilo.
+ */
+function christes_form_user_admin_settings_alter(&$form, FormStateInterface $form_state, $form_id) {
+  $hide = \Drupal::config('christes.settings')->get('hide_username_field') ?? TRUE;
+
+  $form['christes'] = [
+    '#type' => 'details',
+    '#title' => t('Chrístes'),
+    '#open' => TRUE,
+    '#weight' => 10,
+  ];
+  $form['christes']['hide_username_field'] = [
+    '#type' => 'checkbox',
+    '#title' => t('Nascondi il campo "Nome utente"'),
+    '#description' => t('Se attivo, il campo Nome utente non viene mostrato nel form di modifica profilo.'),
+    '#default_value' => $hide,
+  ];
+
+  // Submit handler aggiuntivo: il form di sistema salva la propria config,
+  // noi salviamo in più la nostra impostazione.
+  $form['#submit'][] = 'christes_user_admin_settings_submit';
+}
+
+/**
+ * Submit handler per salvare le impostazioni di Chrístes.
+ */
+function christes_user_admin_settings_submit(array &$form, FormStateInterface $form_state) {
+  \Drupal::configFactory()
+    ->getEditable('christes.settings')
+    ->set('hide_username_field', (bool) $form_state->getValue('hide_username_field'))
+    ->save();
 }
 
 /**
