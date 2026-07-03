@@ -49,10 +49,11 @@ function christes_cron() {
   // Load all User entities according to their IDs
   $uids = User::loadMultiple($allUsers);
   foreach ($uids as $user) {
-    foreach ($user->getRoles() as $role) {
-      $user->removeRole($role);
-    }
-    // Update User
+    // Blocca l'utente per scadenza incarico. NON rimuoviamo i ruoli: il blocco
+    // impedisce già del tutto l'accesso, mentre conservare i ruoli permette agli
+    // utenti bloccati di continuare a comparire nella tabella delle prese visione
+    // (modulo acknowledgements) sui documenti rivolti a ruoli specifici, e
+    // preserva l'associazione storica in caso di riattivazione dell'incarico.
     $user->block();
     // $user->set('status', 0); anche questa istruzione imposto lo stato a BLOCCATO di un UTENTE
     $user->save();
@@ -60,7 +61,7 @@ function christes_cron() {
     // Aggiungi logging
     \Drupal::logger('christes')->notice(
       'Utente @username (UID: @uid) bloccato per scadenza incarico.',
-      ['@username' => $username, '@uid' => $user->id()]
+      ['@username' => $user->getAccountName(), '@uid' => $user->id()]
     );
   }
 }
