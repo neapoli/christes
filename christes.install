@@ -54,6 +54,12 @@ function _christes_import_optional_configs() {
  * Implements hook_install().
  */
 function christes_install() {
+  // Imposta Gin come tema amministrativo.
+  \Drupal::configFactory()
+    ->getEditable('system.theme')
+    ->set('admin', 'gin')
+    ->save();
+
   // 1. Importa e sovrascrive tutto da config/optional/
   _christes_import_optional_configs();
 

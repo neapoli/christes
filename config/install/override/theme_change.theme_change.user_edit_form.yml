@@ -6,4 +6,4 @@ label: 'User Edit Form'
 type: path
 path: '/user/*/edit'
 route: ''
-theme: claro
+theme: gin
